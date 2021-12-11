@@ -1,0 +1,23 @@
+.header {
+    min-height: 100px;
+    background-color: #404040;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.header___toolbar {
+    display: flex;
+    align-items: center;
+}
+
+
+.header___toolbar_title {
+    color: white;
+    font-size: 30px;
+    margin-right: 50px;
+}
+
+
+.header___toolbar

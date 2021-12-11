@@ -2,8 +2,20 @@ from django.db import models
 
 
 class Fireplace(models.Model):
+    id = models.PositiveIntegerField(primary_key=True)
+    item_model = models.CharField(max_length=32,
+                                  verbose_name='Модель')
+    length = models.CharField('Длина', max_length=32)
+    order_number = models.PositiveIntegerField('№ Заказа')
+    seal_number = models.PositiveIntegerField('№ Пломб')
+    brand = models.CharField('Бренд', max_length=32)
+    send_data = models.DateField('Дата отпр.')
+
+
+class Logs(models.Model):
     item_id = models.AutoField(primary_key=True)
-    id = models.PositiveIntegerField()
+    id = models.ForeignKey(Fireplace,
+                           on_delete=models.CASCADE)
     ip = models.CharField(max_length=20)
     block = models.BooleanField()
     state = models.SmallIntegerField()
@@ -18,5 +30,6 @@ class Fireplace(models.Model):
 
 class Command(models.Model):
     item_id = models.AutoField(primary_key=True)
-    id = models.PositiveIntegerField(primary_key=False)
+    id = models.ForeignKey(Fireplace,
+                           on_delete=models.CASCADE)
     command = models.BooleanField()

@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/fireslist.css' %}">
+{% endblock %}
+
+{% block container %}
+    <div class="header">
+        <div class="header___toolbar">
+            <div class="header___toolbar_title">ПОИСК</div>
+            <div class="header___toolbar_search">
+                <input type="text" class="header___toolbar_search_input">
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="list">
+            <table>
+                <tr>
+                    <th>МОДЕЛЬ</th>
+                    <th>ДЛИНА</th>
+                    <th>ID</th>
+                    <th>№ ЗАКАЗА</th>
+                    <th>№ ПЛОМБ</th>
+                    <th>БРЕНД</th>
+                    <th>ДАТА ОТПР.</th>
+                </tr>
+                {% for fireplace in fireplace_list %}
+                    <tr>
+                        <td>{{ fireplace.item_model }}</td>
+                        <td>{{ fireplace.length }}</td>
+                        <td>{{ fireplace.id }}</td>
+                        <td>{{ fireplace.order_number }}</td>
+                        <td>{{ fireplace.seal_number }}</td>
+                        <td>{{ fireplace.brand }}</td>
+                        <td>{{ fireplace.send_data }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

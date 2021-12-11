@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/firecreate.css' %}">
+{% endblock %}
+
+{% block container %}
+    <div class="form">
+        <form class="create_fire" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="row">
+                    <span class="title">
+                        {{ field.label }}
+                    </span>
+                    <span>
+                        {{ field }}
+                    </span>
+                </div>
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+{#            {% if form.errors %}#}
+{#                <div class="errors">#}
+{#                    {{ form.errors }}#}
+{#                </div>#}
+{#            {% endif %}#}
+            <div class="row">
+                <button><a href="{% url 'firelist' %}" class="url_to_back">Назад</a></button>
+                <input type="submit" value="Создать">
+            </div>
+        </form>
+    </div>
+{% endblock %}
