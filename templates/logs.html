@@ -1,0 +1,36 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/logs.css' %}">
+
+
+<div class="logs">
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>IP</th>
+            <th>Block</th>
+            <th>State</th>
+            <th>Language</th>
+            <th>Fuel Level</th>
+            <th>Fire level</th>
+            <th>Favorite mode</th>
+            <th>Temp tank</th>
+            <th>Temp ten</th>
+            <th>Temp burner</th>
+        </tr>
+        {% for log in logs %}
+            <tr>
+                <td>{{ log.id.id }}</td>
+                <td>{{ log.ip }}</td>
+                <td>{{ log.block }}</td>
+                <td>{{ log.state }}</td>
+                <td>{{ log.language }}</td>
+                <td>{{ log.fuel_level }}</td>
+                <td>{{ log.fire_level }}</td>
+                <td>{{ log.favorite_mode }}</td>
+                <td>{{ log.temp_tank }}</td>
+                <td>{{ log.temp_ten }}</td>
+                <td>{{ log.temp_burner }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>

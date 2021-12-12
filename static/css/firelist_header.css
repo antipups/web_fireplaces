@@ -19,6 +19,11 @@
     margin-right: 50px;
 }
 
+
+.header___toolbar_search {
+    margin-right: 50px;
+}
+
 .header___toolbar_search_input {
     font-size: inherit;
     padding: 0;
@@ -35,6 +40,7 @@
     color: white;
     border: 1px solid #404040;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .header___toolbar_search_button {

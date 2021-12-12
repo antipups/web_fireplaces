@@ -1,0 +1,22 @@
+.logs {
+    background-color: #404040;
+    /*width: 80%;*/
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table th {
+    font-size: 30px;
+}
+
+th,td {
+    border: 2px solid white;
+    padding: 10px;
+}

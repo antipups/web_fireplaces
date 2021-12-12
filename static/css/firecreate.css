@@ -13,10 +13,12 @@
     align-items: center;
     /*width: 500px;*/
     justify-content: center;
-    border: 1px #000 solid;
-    border-radius: 10px;
+    /*border: 1px #000 solid;*/
+    /*border-radius: 10px;*/
     padding: 10px;
     font-size: 20px;
+    color: white;
+    background-color: #515151;
 }
 
 
@@ -29,6 +31,7 @@
 
 .title {
     width: 150px;
+    font-size: 20px;
 }
 
 
@@ -44,4 +47,11 @@
     color: red;
     margin: 0;
     padding: 0;
+}
+
+
+.input_field > input {
+    background-color: #A8A8A8;
+    border: none;
+    font-size: 20px;
 }

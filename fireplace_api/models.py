@@ -5,12 +5,16 @@ class Fireplace(models.Model):
     id = models.PositiveIntegerField(primary_key=True)
     item_model = models.CharField(max_length=32,
                                   verbose_name='Модель')
+    ip = models.CharField(max_length=20)
+    state = models.SmallIntegerField(default=0)
     length = models.CharField('Длина', max_length=32)
     order_number = models.PositiveIntegerField('№ Заказа')
     seal_number = models.PositiveIntegerField('№ Пломб')
     brand = models.CharField('Бренд', max_length=32)
     version = models.CharField('Версия прошивки', max_length=32)
     send_data = models.DateField('Дата отпр.')
+    command = models.BooleanField('Включен ли?',
+                                  default=False)
 
 
 class Logs(models.Model):
@@ -27,10 +31,3 @@ class Logs(models.Model):
     temp_tank = models.IntegerField()
     temp_ten = models.IntegerField()
     temp_burner = models.IntegerField()
-
-
-class Command(models.Model):
-    item_id = models.AutoField(primary_key=True)
-    id = models.ForeignKey(Fireplace,
-                           on_delete=models.CASCADE)
-    command = models.BooleanField()

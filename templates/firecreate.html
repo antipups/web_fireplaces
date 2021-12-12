@@ -14,7 +14,7 @@
                     <span class="title">
                         {{ field.label }}
                     </span>
-                    <span>
+                    <span class="input_field">
                         {{ field }}
                     </span>
                 </div>
@@ -22,15 +22,22 @@
                     {{ field.errors }}
                 {% endif %}
             {% endfor %}
+
 {#            {% if form.errors %}#}
 {#                <div class="errors">#}
 {#                    {{ form.errors }}#}
 {#                </div>#}
 {#            {% endif %}#}
+
             <div class="row">
                 <button><a href="{% url 'firelist' %}" class="url_to_back">Назад</a></button>
-                <input type="submit" value="Создать">
+                <input type="submit" value="{% if create %}Создать{% else %}Обновить{% endif %}">
             </div>
         </form>
     </div>
+
+    {% if logs %}
+        {% include 'logs.html' %}
+    {% endif %}
+
 {% endblock %}

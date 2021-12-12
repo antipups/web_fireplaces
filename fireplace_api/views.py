@@ -9,12 +9,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, CreateView, UpdateView
 
 from fireplace_api import services
-from fireplace_api.models import Fireplace, Command
+from fireplace_api.models import Fireplace, Logs
 
 
 @csrf_exempt
 def add_fireplace(request: WSGIRequest, fireplace_id: int):
-    services.add_fire(request.POST.dict())
+    services.add_logs(request.POST.dict())
     return HttpResponse("OK")
 
 
@@ -28,10 +28,24 @@ class FiresList(ListView):
     template_name = 'firelist.html'
     paginate_by = 10
 
+    def get_queryset(self):
+        queryset = super(FiresList, self).get_queryset()
+        url_args: dict = self.request.GET.dict()
+
+        if 'search_type' in url_args and 'search_value' in url_args:    # поиск с фильтрами
+            queryset = Fireplace.objects.filter(**{url_args['search_type']: url_args['search_value']})
+            # self.request.session.update(url_args)
+        # else:
+        #     self.request
+
+        return queryset
+
     def get_context_data(self, *, object_list=None, **kwargs):
         contex_data = super(FiresList, self).get_context_data()
-        contex_data['fires_on'] = Command.objects.filter(command=True).count()
-        contex_data['fires_off'] = Command.objects.filter(command=False).count()
+        contex_data['fires_on'] = Fireplace.objects.filter(command=True).count()
+        contex_data['fires_off'] = Fireplace.objects.filter(command=False).count()
+        contex_data['amount_errors'] = Fireplace.objects.filter(state__in=[212, 222, 223, 224, 225, 226, 227])\
+            .count()
         return contex_data
 
 
@@ -52,6 +66,11 @@ class FireCreate(CreateView):
         form.fields['send_data'].widget.attrs.update({'value': datetime.date.today()})
         return form
 
+    def get_context_data(self, **kwargs):
+        context = super(FireCreate, self).get_context_data()
+        context['create'] = True
+        return context
+
     def get_success_url(self):
         return reverse("create_fireplace")
 
@@ -63,7 +82,11 @@ class FireUpdate(UpdateView):
 
     def get_object(self, queryset=None):
         return Fireplace.objects.get(id=self.request.resolver_match.kwargs['fireplace_id'])
+    
+    def get_context_data(self, **kwargs):
+        context = super(FireUpdate, self).get_context_data()
+        context['logs'] = Logs.objects.filter(id=Fireplace.objects.get(id=self.request.resolver_match.kwargs['fireplace_id']))
+        return context
 
     def get_success_url(self):
         return reverse("firelist")
-

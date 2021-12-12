@@ -8,12 +8,33 @@
             <input type="text" class="header___toolbar_search_input">
             <div class="header___toolbar_search_button">
                 <p style="margin: 0;padding: 0;color: white">Найти по:</p>
-                <span class="header___toolbar_button">ID</span>
-                <a class="header___toolbar_button" href="">№ Заказа</a>
-                <a class="header___toolbar_button" href="">№ Пломб</a>
-                <a class="header___toolbar_button" href="">Модель</a>
-                <a class="header___toolbar_button" href="">Длина</a>
+                <span class="header___toolbar_button" id="id">ID</span>
+                <span class="header___toolbar_button" id="order_number">№ Заказа</span>
+                <span class="header___toolbar_button" id="seal_number">№ Пломб</span>
+                <span class="header___toolbar_button" id="item_model">Модель</span>
+                <span class="header___toolbar_button" id="length">Длина</span>
             </div>
+        </div>
+        <div class="add_fireplace">
+            <a href="{% url 'create_fireplace' %}">
+                <img src="{% static 'svg/plus.svg' %}" class="button_size" alt="" title="Добавить новый камин">
+            </a>
         </div>
     </div>
 </div>
+
+
+<script>
+    function search_by(search_type) {
+        location.href = "{% url 'filter_search' %}?search_type="
+            + search_type
+            + "&search_value="
+            + document.querySelector('input.header___toolbar_search_input').value
+    }
+    document.querySelectorAll('span.header___toolbar_button').forEach((button) => {
+        let type = button.id
+        button.addEventListener('click', (event) => {
+            search_by(type)
+        })
+    })
+</script>
