@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.forms import ModelForm, DateInput
 from django.http import HttpResponse
@@ -23,7 +24,7 @@ def add_command(request: WSGIRequest, fireplace_id: int):
     return HttpResponse("OK")
 
 
-class FiresList(ListView):
+class FiresList(LoginRequiredMixin, ListView):
     model = Fireplace
     template_name = 'firelist.html'
     paginate_by = 10
@@ -56,7 +57,7 @@ class FireForm(ModelForm):
         widgets = {'send_data': DateInput(attrs={'type': 'date'},)}
 
 
-class FireCreate(CreateView):
+class FireCreate(LoginRequiredMixin, CreateView):
 
     template_name = 'firecreate.html'
     form_class = FireForm
@@ -75,7 +76,7 @@ class FireCreate(CreateView):
         return reverse("create_fireplace")
 
 
-class FireUpdate(UpdateView):
+class FireUpdate(LoginRequiredMixin, UpdateView):
 
     form_class = FireForm
     template_name = 'firecreate.html'

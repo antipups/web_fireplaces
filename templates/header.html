@@ -9,6 +9,6 @@
         <a href=""><img src="{% static 'svg/mail.svg' %}" class="button_size" alt=""></a>
         <a href=""><img src="{% static 'svg/setting.svg' %}" class="button_size" alt=""></a>
         <a href=""><img src="{% static 'svg/user.svg' %}" class="button_size" alt=""></a>
-        <a href=""><img src="{% static 'svg/logout.svg' %}" class="button_size" alt=""></a>
+        <a href="{% url 'auth_system:logout' %}"><img src="{% static 'svg/logout.svg' %}" class="button_size" alt=""></a>
     </div>
 </div>
