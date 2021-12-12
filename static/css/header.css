@@ -1,0 +1,33 @@
+.header {
+    width: 100vw;
+    height: 200px;
+    background-color: #007CB1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 30px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.buttons > a:not(:last-child) {
+    padding-right: 20px;
+    /*background-color: red;*/
+    text-decoration: none;
+    color: white;
+}
+
+
+.buttons > a:last-child {
+    padding-right: 100px;
+    /*background-color: red;*/
+    color: white;
+}
+
+.button_size {
+    width: 45px;
+    height: 45px;
+}

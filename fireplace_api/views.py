@@ -6,10 +6,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 
 from fireplace_api import services
-from fireplace_api.models import Fireplace
+from fireplace_api.models import Fireplace, Command
 
 
 @csrf_exempt
@@ -28,14 +28,21 @@ class FiresList(ListView):
     template_name = 'firelist.html'
     paginate_by = 10
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        contex_data = super(FiresList, self).get_context_data()
+        contex_data['fires_on'] = Command.objects.filter(command=True).count()
+        contex_data['fires_off'] = Command.objects.filter(command=False).count()
+        return contex_data
+
+
+class FireForm(ModelForm):
+    class Meta:
+        model = Fireplace
+        fields = '__all__'
+        widgets = {'send_data': DateInput(attrs={'type': 'date'},)}
+
 
 class FireCreate(CreateView):
-
-    class FireForm(ModelForm):
-        class Meta:
-            model = Fireplace
-            fields = '__all__'
-            widgets = {'send_data': DateInput(attrs={'type': 'date'},)}
 
     template_name = 'firecreate.html'
     form_class = FireForm
@@ -47,3 +54,16 @@ class FireCreate(CreateView):
 
     def get_success_url(self):
         return reverse("create_fireplace")
+
+
+class FireUpdate(UpdateView):
+
+    form_class = FireForm
+    template_name = 'firecreate.html'
+
+    def get_object(self, queryset=None):
+        return Fireplace.objects.get(id=self.request.resolver_match.kwargs['fireplace_id'])
+
+    def get_success_url(self):
+        return reverse("firelist")
+

@@ -1,23 +1,49 @@
-.header {
-    min-height: 100px;
-    background-color: #404040;
+.list {
     display: flex;
-    justify-content: center;
+    /*justify-content: center;*/
+    padding-top: 100px;
+    height: 100%;
     align-items: center;
+    flex-direction: column;
 }
 
-
-.header___toolbar {
-    display: flex;
-    align-items: center;
+.firelist {
+    border-collapse: collapse;
+    text-align: center;
 }
 
-
-.header___toolbar_title {
-    color: white;
+.first_row {
     font-size: 30px;
+    color: white;
+    background-color: #007CB1;
+}
+
+th {
+    padding: 10px 20px;
+}
+
+tbody > tr {
+    height: 30px;
+}
+
+
+tbody > tr:nth-child(odd) {
+    background-color: #ECECEC;
+}
+
+
+tbody > tr:nth-child(even) {
+    background-color: #E1E1E1;
+}
+
+
+.statuses {
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+    margin-top: 50px;
+}
+
+.statuses > span {
     margin-right: 50px;
 }
-
-
-.header___toolbar

@@ -8,4 +8,9 @@ def add_fire(fire_data: dict):
 
 
 def add_command(fireplace_id: int, data: dict):
-    Command(id=fireplace_id, **data).save()
+    if exist_fireplace := Command.objects.filter(id=Fireplace.objects.get(id=fireplace_id)):
+        exist_fireplace[0].command = data['command']
+        exist_fireplace[0].save()
+    else:
+        Command(id=Fireplace.objects.get(id=fireplace_id), **data).save()
+

@@ -6,18 +6,13 @@
 {% endblock %}
 
 {% block container %}
-    <div class="header">
-        <div class="header___toolbar">
-            <div class="header___toolbar_title">ПОИСК</div>
-            <div class="header___toolbar_search">
-                <input type="text" class="header___toolbar_search_input">
-            </div>
-        </div>
-    </div>
-    <div class="body">
-        <div class="list">
-            <table>
-                <tr>
+
+    {% include 'list_header.html' %}
+
+    <div class="list">
+        <table class="firelist">
+            <thead>
+                <tr class="first_row">
                     <th>МОДЕЛЬ</th>
                     <th>ДЛИНА</th>
                     <th>ID</th>
@@ -26,18 +21,26 @@
                     <th>БРЕНД</th>
                     <th>ДАТА ОТПР.</th>
                 </tr>
-                {% for fireplace in fireplace_list %}
-                    <tr>
-                        <td>{{ fireplace.item_model }}</td>
-                        <td>{{ fireplace.length }}</td>
-                        <td>{{ fireplace.id }}</td>
-                        <td>{{ fireplace.order_number }}</td>
-                        <td>{{ fireplace.seal_number }}</td>
-                        <td>{{ fireplace.brand }}</td>
-                        <td>{{ fireplace.send_data }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+            </thead>
+            {% for fireplace in fireplace_list %}
+                <tr onclick="location.href='{% url 'update_fireplace' fireplace.id %}'" style="cursor: pointer" title="Изменить камин {{ fireplace.id }}">
+                    <td>{{ fireplace.item_model }}</td>
+                    <td>{{ fireplace.length }}</td>
+                    <td>{{ fireplace.id }}</td>
+                    <td>{{ fireplace.order_number }}</td>
+                    <td>{{ fireplace.seal_number }}</td>
+                    <td>{{ fireplace.brand }}</td>
+                    <td>{{ fireplace.send_data }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {% include 'pagination.html' %}
+
+        <div class="statuses">
+            <span>Каминов с ошибкой: {{ amount_errors }}</span>
+            <span>Отключённые камины: {{ fires_off }}</span>
+            <span>Камины в сети: {{ fires_on }}</span>
         </div>
     </div>
 

@@ -9,6 +9,7 @@ class Fireplace(models.Model):
     order_number = models.PositiveIntegerField('№ Заказа')
     seal_number = models.PositiveIntegerField('№ Пломб')
     brand = models.CharField('Бренд', max_length=32)
+    version = models.CharField('Версия прошивки', max_length=32)
     send_data = models.DateField('Дата отпр.')
 
 
