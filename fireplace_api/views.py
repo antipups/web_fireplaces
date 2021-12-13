@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.forms import ModelForm, DateInput
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -11,17 +11,21 @@ from django.views.generic import ListView, CreateView, UpdateView
 
 from fireplace_api import services
 from fireplace_api.models import Fireplace, Logs
+from json import loads
 
 
 @csrf_exempt
-def add_fireplace(request: WSGIRequest, fireplace_id: int):
-    services.add_logs(request.POST.dict())
-    return HttpResponse("OK")
+def add_fireplace(request: WSGIRequest):
+    try:
+        services.add_logs(loads(request.body.decode()))
+    except Exception as e:
+        return HttpResponse(status=400,)
+    else:
+        return HttpResponse('')
 
 
-def add_command(request: WSGIRequest, fireplace_id: int):
-    services.add_command(fireplace_id, request.GET.dict())
-    return HttpResponse("OK")
+def get_command(request: WSGIRequest, fireplace_id: int):
+    return JsonResponse({'command': services.get_command(fireplace_id=fireplace_id)})
 
 
 class FiresList(LoginRequiredMixin, ListView):
@@ -54,7 +58,21 @@ class FireForm(ModelForm):
     class Meta:
         model = Fireplace
         fields = '__all__'
+        exclude = ['command']
         widgets = {'send_data': DateInput(attrs={'type': 'date'},)}
+
+    def clean_on_or_off(self):
+        data = self.cleaned_data
+        fire = Fireplace.objects.get(id=data['id'])
+
+        if data['on_or_off'] and not data['block']:
+            fire.command = 2
+        elif not data['on_or_off'] and data['block']:
+            fire.command = 1
+        else:
+            fire.command = 0
+        fire.save()
+        return data['on_or_off']
 
 
 class FireCreate(LoginRequiredMixin, CreateView):
@@ -75,6 +93,21 @@ class FireCreate(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse("create_fireplace")
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+
+        data = form.cleaned_data
+
+        if data['on_or_off'] and not data['block']:
+            self.object.command = 2
+        elif not data['on_or_off'] and data['block']:
+            self.object.command = 1
+        else:
+            self.object.command = 0
+        self.object.save()
+
+        return super(FireCreate, self).form_valid(form)
+
 
 class FireUpdate(LoginRequiredMixin, UpdateView):
 
@@ -91,3 +124,18 @@ class FireUpdate(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse("firelist")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+
+        data = form.cleaned_data
+
+        if data['on_or_off'] and not data['block']:
+            self.object.command = 2
+        elif not data['on_or_off'] and data['block']:
+            self.object.command = 1
+        else:
+            self.object.command = 0
+        self.object.save()
+
+        return super(FireUpdate, self).form_valid(form)

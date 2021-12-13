@@ -30,7 +30,7 @@
 {#            {% endif %}#}
 
             <div class="row">
-                <button><a href="{% url 'firelist' %}" class="url_to_back">Назад</a></button>
+                <button onclick="location.href='{% url 'firelist' %}'">Назад</button>
                 <input type="submit" value="{% if create %}Создать{% else %}Обновить{% endif %}">
             </div>
         </form>

@@ -2,10 +2,12 @@ from fireplace_api.models import Fireplace, Logs
 
 
 def add_logs(fire_data: dict):
-    fire_data.pop('smartlock')
+    if 'smartlock' in fire_data:
+        fire_data.pop('smartlock')
 
     fireplace = Fireplace.objects.get(id=fire_data['id'])
     fireplace.state = fire_data['state']
+    fireplace.block = fire_data['block']
     fireplace.save()
 
     fire_data['id'] = fireplace
@@ -13,7 +15,6 @@ def add_logs(fire_data: dict):
         .save()
 
 
-def add_command(fireplace_id: int, data: dict):
+def get_command(fireplace_id: int) -> int:
     fireplace = Fireplace.objects.get(id=fireplace_id)
-    fireplace.command = data['command']
-    fireplace.save()
+    return fireplace.command

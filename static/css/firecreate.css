@@ -4,6 +4,7 @@
     align-items: center;
     /*width: 500px;*/
     height: 100vh;
+    /*flex-direction: column;*/
 }
 
 
@@ -20,6 +21,12 @@
     color: white;
     background-color: #515151;
 }
+
+/*@media (max-width: 800px) {*/
+/*    .create_fire {*/
+/*        width: 100%;*/
+/*    }*/
+/*}*/
 
 
 .row {
