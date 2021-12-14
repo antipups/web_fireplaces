@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -14,10 +16,8 @@ class Fireplace(models.Model):
     version = models.CharField('Версия прошивки', max_length=32)
     send_data = models.DateField('Дата отпр.')
     block = models.BooleanField('Заблокирован', default=False)
-    on_or_off = models.BooleanField('Включен',
-                                    default=False)
-    command = models.SmallIntegerField('То, что возвращается камину',
-                                       default=0)
+    on_or_off = models.DateTimeField('Дата отключения',
+                                     default=datetime.datetime.now())
 
 
 class Logs(models.Model):
